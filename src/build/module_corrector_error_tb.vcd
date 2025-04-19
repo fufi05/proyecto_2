@@ -1,0 +1,61 @@
+$date
+	Thu Apr 03 01:01:46 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ns
+$end
+$scope module module_corrector_error_tb $end
+$var wire 7 ! data [6:0] $end
+$var reg 7 " datos_recibidos [6:0] $end
+$var reg 3 # sindrome [2:0] $end
+$scope module dut $end
+$var wire 7 $ datos_recibidos [6:0] $end
+$var wire 3 % sindrome [2:0] $end
+$var wire 7 & data [6:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+b1010101 &
+b0 %
+b1010101 $
+b0 #
+b1010101 "
+b1010101 !
+$end
+#10
+b1110000 !
+b1110000 &
+b1110001 "
+b1110001 $
+b1 #
+b1 %
+#20
+b1101000 !
+b1101000 &
+b1101010 "
+b1101010 $
+b10 #
+b10 %
+#30
+b1001101 !
+b1001101 &
+b1001001 "
+b1001001 $
+b11 #
+b11 %
+#40
+b1111110 !
+b1111110 &
+b111110 "
+b111110 $
+b111 #
+b111 %
+#50
