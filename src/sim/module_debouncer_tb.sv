@@ -7,7 +7,7 @@ module module_debouncer_tb;
  // Outputs
  wire pb_out;
  // Instantiate the debouncing Verilog code
- module_debouncer uut (
+ module_debouncer dut (
   .pb_1(pb_1), 
   .clk(clk), 
   .pb_out(pb_out)
