@@ -30,24 +30,24 @@ module module_teclado_hex_tb ();
     integer        j, k;
     always @(key) begin                                                   // "one-hot" codeo for pressed key
     case (key)
-        16'h0000: Pressed = None;
-        16'h0001: Pressed = Key_0;              //Key = 0000 0000 0000 0001
-        16'h0002: Pressed = Key_1;              //Key = 0000 0000 0000 0010
-        16'h0004: Pressed = Key_2;              //Key = 0000 0000 0000 0100
-        16'h0008: Pressed = Key_3;              //Key = 0000 0000 0000 1000
-        16'h0010: Pressed = Key_4;
-        16'h0020: Pressed = Key_5;
-        16'h0040: Pressed = Key_6;
-        16'h0080: Pressed = Key_7;
-        16'h0100: Pressed = Key_8;
-        16'h0200: Pressed = Key_9;
-        16'h0400: Pressed = Key_A;
-        16'h0800: Pressed = Key_B;
-        16'h1000: Pressed = Key_C;
-        16'h2000: Pressed = Key_D;
-        16'h4000: Pressed = Key_E;
-        16'h8000: Pressed = Key_F;
-        default: Pressed = None;
+        16'h0000: presionado = None;
+        16'h0001: presionado = Key_0;              //Key = 0000 0000 0000 0001
+        16'h0002: presionado = Key_1;              //Key = 0000 0000 0000 0010
+        16'h0004: presionado = Key_2;              //Key = 0000 0000 0000 0100
+        16'h0008: presionado = Key_3;              //Key = 0000 0000 0000 1000
+        16'h0010: presionado = Key_4;
+        16'h0020: presionado = Key_5;
+        16'h0040: presionado = Key_6;
+        16'h0080: presionado = Key_7;
+        16'h0100: presionado = Key_8;
+        16'h0200: presionado = Key_9;
+        16'h0400: presionado = Key_10;
+        16'h0800: presionado = Key_11;
+        16'h1000: presionado = Key_12;
+        16'h2000: presionado = Key_13;
+        16'h4000: presionado = Key_14;
+        16'h8000: presionado = Key_15;
+        default: presionado = None;
     endcase
     end
     module_teclado_hex M1( .row(row), .s_row(s_row), .clk(clk), .rst(rst), .code(code), .valido(valido), .col(col));

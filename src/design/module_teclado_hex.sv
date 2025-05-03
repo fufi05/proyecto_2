@@ -23,22 +23,22 @@ module module_teclado_hex(
     assign valido = ((state == S_1) | (state == S_2) | (state == S_3) | (state == S_4)) & row;
     always @ (row or col)
     case ({row, col})
-        8'b0001_0001: code = 1; 
-        8'b0001_0010: code = 2;
-        8'b0001_0100: code = 3; 
-        8'b0001_1000: code = 10; // A
-        8'b0010_0001: code = 4; 
-        8'b0010_0010: code = 5;
-        8'b0010_0100: code = 6;
-        8'b0010_1000: code = 11; // B
-        8'b0100_0001: code = 7;
-        8'b0100_0010: code = 8;
-        8'b0100_0100: code = 9;       
-        8'b0100_1000: code = 12;  // C
+        8'b0001_0001: code = 4'b0001; // 1
+        8'b0001_0010: code = 4'b0010; // 2
+        8'b0001_0100: code = 4'b0011; // 3
+        8'b0001_1000: code = 4'b1010; // A
+        8'b0010_0001: code = 4'b0100; // 4
+        8'b0010_0010: code = 4'b0101; // 5
+        8'b0010_0100: code = 4'b0110; // 6
+        8'b0010_1000: code = 4'b1011; // B
+        8'b0100_0001: code = 4'b0111; // 7
+        8'b0100_0010: code = 4'b1000; // 8
+        8'b0100_0100: code = 4'b1001; // 9     
+        8'b0100_1000: code = 4'b1100;  // C
         8'b1000_0001: code = 4'bxxxx;   // * (not used)
-        8'b1000_0010: code = 0;        
+        8'b1000_0010: code = 4'b0000;   // 0     
         8'b1000_0100: code = 4'bxxxx;   // # (not used)
-        8'b1000_1000: code = 15;  // D
+        8'b1000_1000: code = 4'b1101;  // D
         default: code = 0;                     //Arbitrary choice
     endcase
     always @(posedge clk , posedge rst)
