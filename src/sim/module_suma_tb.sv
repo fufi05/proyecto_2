@@ -1,28 +1,26 @@
 `timescale 1ns/1ns
 
 module module_suma_tb;
-  reg [2:0] a,b,c;
-  wire cout;
+  reg [11:0] a,b;
+  wire [12:0] s;
 
   // Instantiate the module under test
   module_suma dut (
     .a(a),
     .b(b),
-    .c(c),
-    .suma(cout)
+    .s(s)
   );
     always begin
       // Initialize inputs
-      a = 3'd000;
-      b = 3'd000;
-      c = 3'd000;
-      $monitor("Time: %0t | A: %b | B: %b | C: %b | Suma: %b", $time, a, b, c, cout);
+      a = 12'b0;
+      b = 12'b0;
+      $monitor("Time: %0t | A: %b | B: %b | Suma: %b", $time, a, b,s);
       // Apply test cases
-        #50 a = 3'd136; b = 3'd004; c = 3'd100; // Test case 1
-        #50 a = 3'h001; b = 3'h0AC; c = 3'h032; // Test case 2
-        #50 a = 3'h002; b = 3'h0AD; c = 3'h033; // Test case 3
-        #50 a = 3'h003; b = 3'h0AE; c = 3'h034; // Test case 4
-        #50 a = 3'h004; b = 3'h0AF; c = 3'h035; // Test case 5
+        #50 a = 12'b0001_0011_0000; b = 12'b0001_0000_0000; // Test case 1
+        #50 a = 12'b0001_0000_0000; b = 12'b0000_0000_0001;  // Test case 2
+        #50 a = 12'b0000_0000_0010; b = 12'b0000_0000_0001;  // Test case 3
+        #50 a = 12'b0000_0010_0000; b = 12'b0000_0001_0000;  // Test case 4
+        #50 a = 12'b0010_0000_0000; b = 12'b0011_0000_0000;  // Test case 5
         $finish;
     end
   initial begin

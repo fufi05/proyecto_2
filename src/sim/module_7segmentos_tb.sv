@@ -7,7 +7,7 @@ wire [6:0] out;
 
 module_7segmentos dut (
     .data(in),
-    .display(out)
+    .segmentos(out)
 );
 
 // Generación de estímulos

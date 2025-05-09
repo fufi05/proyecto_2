@@ -6,13 +6,13 @@ module module_debouncer_tb;
  reg clk;
  reg rst;
  // Outputs
- wire btn_stbl;
+ wire tecla;
  // Instantiate the debouncing Verilog code
  module_debouncer dut (
   .btn(btn), 
   .clk(clk), 
   .rst(rst),
-  .btn_stbl(btn_stbl)
+  .tecla(tecla)
  );
  initial begin
   clk = 0;

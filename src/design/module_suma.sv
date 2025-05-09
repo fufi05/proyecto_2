@@ -1,13 +1,7 @@
 module module_suma (
-    input a,b,cin,
-    output reg s,cout);
-
-    reg p,g;
-
-    always @(*)begin
-        p = a ^ b;
-        g = a & b;
-        s = p ^ cin;
-        cout = g |(p & cin);
-    end
+    input logic [11:0] a,b,
+    output logic [12:0] s
+    );
+    // suma de 12 bits 
+    assign s = a + b;
 endmodule
