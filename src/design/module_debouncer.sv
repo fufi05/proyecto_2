@@ -1,13 +1,15 @@
 module module_debouncer(input logic btn,
                         input logic clk,
                         input logic rst,
-                        output logic tecla);
+                        output logic tecla,
+                        output logic stop);
     logic n1,n2,n3,n4;
     dff dff1(.d(btn), .clk(clk), .rst(rst), .q(n1)); // D flip-flop 1
     dff dff2(.d(n1), .clk(clk), .rst(rst), .q(n2)); // D flip-flop 2
     assign n3 = ~(n1 ^ n2); // NXOR
     contador cont(.clk(clk), .rst(rst), .in(n3), .flg(n4)); // Contador
     endff endff1(.clk(clk), .rst(rst), .en(n4), .d(n2), .q(tecla)); // Enable flip-flop 
+    assign stop = tecla; // Salida stop
 endmodule
 
 // Modulos componentes del debouncer

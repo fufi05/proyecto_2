@@ -1,4 +1,4 @@
-module decoder_2to4 (
+module module_deco2a4 (
     input  logic [1:0] in,       // Entrada de 2 bits (desde el contador)
     output logic [3:0] out       // Salida de 4 bits (one-hot)
 );

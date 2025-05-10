@@ -48,5 +48,4 @@ module module_deco_tecladohex (
         endcase
         end
     end
-
 endmodule

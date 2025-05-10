@@ -6,13 +6,15 @@ module module_debouncer_tb;
  reg clk;
  reg rst;
  // Outputs
+ wire stop;
  wire tecla;
  // Instantiate the debouncing Verilog code
  module_debouncer dut (
   .btn(btn), 
   .clk(clk), 
   .rst(rst),
-  .tecla(tecla)
+  .tecla(tecla),
+  .stop(stop)
  );
  initial begin
   clk = 0;
@@ -55,6 +57,7 @@ module module_debouncer_tb;
   btn=1;
   #40;
   btn = 0; 
+  $finish; // End the simulation
  end 
  initial begin
     $dumpfile("module_debouncer_tb.vcd");
