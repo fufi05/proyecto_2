@@ -3,10 +3,10 @@ module module_top(input logic clk,
                   input logic [3:0] fila,
                   input logic [3:0] columna,
                   output logic [15:0] suma);
-    logic slow_clk, stop, tecla, load_u, load_d, load_c, rdy, load_a, load_b;
-    logic [1:0] col;
+    logic stop, tecla, load_u, load_d, load_c, rdy, load_a, load_b;
+    logic [1:0] col, slow_clk;
     logic [11:0] a, b, bcd_out;
-    logic [3:0] col_o, tecla_d, bcd_u, bcd_d, bcd_c;
+    logic [3:0] col_o, tecla_d, bcd_u, bcd_d, bcd_c,tecla_val;
 
     // Instancia del divisor de frecuencia 
     module_count clk_div(
@@ -74,7 +74,7 @@ module module_top(input logic clk,
             if (load_c) begin
                  bcd_c <= tecla_val;
             end
-            if (load_out) begin
+            if (rdy) begin
                 bcd_out <= {bcd_u, bcd_d, bcd_c};
             end
         end

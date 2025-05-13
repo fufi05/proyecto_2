@@ -16,7 +16,7 @@ module module_count #(
         end
         else if(counter == count)begin
             counter <= '0;
-            count_o <= count_0 + 1'b1;
+            count_o <= count_o + 1'b1;
         end
         else begin
             counter <= counter + 1'b1;
