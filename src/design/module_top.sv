@@ -112,10 +112,4 @@ module module_top(input logic clk,
         .s(s)
     );
     assign suma = s;
-<<<<<<< HEAD
-    
-    
-=======
-
->>>>>>> 03d25a5a1a858ea08039be0264143a13c351ac90
 endmodule 
