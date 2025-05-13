@@ -2,7 +2,8 @@
                      input logic rst,
                      input logic rdy,
                      output logic load_a,
-                     output logic load_b);
+                     output logic load_b,
+                     output logic load_s);
         typedef enum logic [1:0] {S0,S1,S2,S3} statetype;
         statetype state, nextstate;
 
@@ -29,5 +30,6 @@
   // Output logic
     assign load_a = (state == S1);
     assign load_b = (state == S2);
+    assign load_s = (state == S3);
  endmodule
  
