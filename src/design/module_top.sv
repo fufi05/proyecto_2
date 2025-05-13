@@ -2,11 +2,10 @@ module module_top(input logic clk,
                   input logic rst,
                   input logic [3:0] fila,
                   output logic [15:0] suma);
-    logic slow_clk,stop,tecla;
+    logic slow_clk, stop, tecla, load_u, load_d, load_c, rdy, load_a, load_b, done;
     logic [1:0] col;
-    logic [11:0] a,b,bcd_out;
-    logic [3:0] col_o,tecla_d, bcd_u, bcd_d, bcd_c;
-    logic load_u, load_d, load_c, done;
+    logic [11:0] a, b, bcd_out;
+    logic [3:0] col_o, tecla_d, bcd_u, bcd_d, bcd_c;
 
     // Instancia del divisor de frecuencia 
     module_divisor_frecuencia clk_div(
@@ -43,11 +42,10 @@ module module_top(input logic clk,
         .fila(fila),
         .col(col_o),
         .tecla(tecla),
-        .num(tecla_d),
-        .rdy(rdy)
+        .num(tecla_d)
     );
 
-    // Instancia de la FSM
+    // Instancia de la FSM de carga
     module_fsmload fsm_load(
         .clk(clk),
         .rst(rst),
@@ -55,15 +53,17 @@ module module_top(input logic clk,
         .load_u(load_u),
         .load_d(load_d),
         .load_c(load_c),
+        .load_out(rdy)
     );
 
     //Instancia de registros de desplazamiento
-    always_ff @(posedge clk , posedge rst) begin
-        if (rst) begin
+    always_ff @(posedge clk) begin
+        if (!rst) begin
             bcd_u <= 4'd0;
             bcd_d <= 4'd0;
             bcd_c <= 4'd0;
-        end else begin
+        end 
+        else begin
             if (load_u) begin
                  bcd_u <= tecla_val;
             end
@@ -79,5 +79,38 @@ module module_top(input logic clk,
         end
     end
 
+    // Instancia de la FSM de operandos
+    module_fsmop fsm_op(
+        .clk(clk),
+        .rst(rst),
+        .rdy(rdy),
+        .load_a(load_a),
+        .load_b(load_b)
+    );
+
+    // Registro de desplazamiento para la FSM de operandos
+    always_ff @(posedge clk)begin
+        if (!rst)begin
+            a <= '0;
+            b <= '0;
+        end
+        else begin
+            if (load_a) begin
+                a<= bcd_out;
+            end
+            if (load_b) begin
+                b <= bcd_out;
+            end
+        end
+    end
+
+    // Instancia de la suma 
+    module_suma suma(
+        .a(a),
+        .b(b),
+        .s(s)
+    );
+    assig suma = s;
+    
     
 endmodule 
