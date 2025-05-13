@@ -111,4 +111,5 @@ module module_top(input logic clk,
         .b(b),
         .s(suma)
     );
+
 endmodule 
