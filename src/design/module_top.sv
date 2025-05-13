@@ -116,7 +116,7 @@ module module_top(input logic clk,
     //Sistema de despliegue de los operandos y suma
     // Señales internas
     logic [1:0] fuente_sel;
-    logic [3:0] a_u,a_d,a_c,b_u,b_d,b_c,s_u,s_d,s_c,s_um,mux_val_0, mux_val_1, mux_val_2, mux_val_3;
+    logic [3:0] a_u,a_d,a_c,b_u,b_d,b_c,s_u,s_d,s_c,s_um,mux_val_0, mux_val_1, mux_val_2, mux_val_3,out;
     logic [6:0] segmentos;
 
     // Selector de la señal de salida
@@ -176,7 +176,7 @@ module module_top(input logic clk,
     end
 
     module_mux_onehot mux_onehot(
-        .sel(slow_clk),
+        .sel(fuente_sel),
         .out2(out2)
     );
 
@@ -188,24 +188,10 @@ module module_top(input logic clk,
         .sel(fuente_sel),
         .out(out)
     );
-    module_7segmentos unidades(
-        .data(mux_val_0),
+    module_7segmentos display(
+        .data(out),
         .segmentos(segmentos)
         //de aqui salen las unidades en forma para el siete segmentos y ser mandadas al mux
     );
-    module_7segmentos decenas(
-        .data(mux_val_1),
-        .segmentos(segmentos)
-        //de aqui salen las decenas en forma para el siete segmentos y ser mandadas al mux
-    );
-    module_7segmentos centenas(
-        .data(mux_val_2),
-        .segmentos(segmentos)
-        //de aqui salen las centanas en forma para el siete segmentos y ser mandadas al mux
-    );
-    module_7segmentos millares(
-        .data(mux_val_3),
-        .segmentos(segmentos)
-        //de aqui salen las unidades de millar en forma para el siete segmentos y ser mandadas al mux
-    );
+
 endmodule 

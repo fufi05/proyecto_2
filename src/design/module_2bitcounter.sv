@@ -1,4 +1,4 @@
-module module_2bitcounter( input  logic [1:0] clk,
+module module_2bitcounter( input  logic clk,
     input  logic rst,     // Reset asíncrono activo en bajo
     input  logic stop,        // Enable
     output logic [1:0] count );
