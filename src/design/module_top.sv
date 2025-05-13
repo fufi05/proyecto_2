@@ -119,14 +119,17 @@ module module_top(input logic clk,
     module_7segmentos module_7segmentos(
         .data(bcd_u)
         .segmentos(segmentos)
+        //de aqui salen las unidades en forma para el siete segmentos y ser mandadas al mux
     );
     module_7segmentos module_7segmentos(
         .data(bcd_d)
         .segmentos(segmentos)
+        //de aqui salen las decenas en forma para el siete segmentos y ser mandadas al mux
     );
     module_7segmentos module_7segmentos(
         .data(bcd_c)
         .segmentos(segmentos)
+        //de aqui salen las centanas en forma para el siete segmentos y ser mandadas al mux
     );
     module_mux_onehot mux_onehot(
         .sel(count_out)
