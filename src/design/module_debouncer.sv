@@ -1,8 +1,8 @@
 module module_debouncer(input logic btn,
                         input logic clk,
                         input logic rst,
-                        output logic tecla,
-                        output logic stop);
+                        output logic tecla, // se deben llamar 4 en la entrada de las filas
+                        output logic stop); // y luego poner un OR para que salga una sola tecla
     logic n1,n2,n3,n4;
     dff dff1(.d(btn), .clk(clk), .rst(rst), .q(n1)); // D flip-flop 1
     dff dff2(.d(n1), .clk(clk), .rst(rst), .q(n2)); // D flip-flop 2
