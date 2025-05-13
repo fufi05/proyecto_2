@@ -1,8 +1,8 @@
 module mux_4to1 (
-    input [6:0] a,                 
-    input [6:0] b,                 
-    input [6:0] c,                 
-    input [6:0] d,                 
+    input [6:0] unidades,                 
+    input [6:0] decenas,                 
+    input [6:0] centenas,                 
+    input [6:0] millares,                 
     input [1:0] sel,               
     output reg [6:0] out
 );
