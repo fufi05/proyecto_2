@@ -31,7 +31,7 @@ module module_top(input logic clk,
 
     //instancia del debouncer
     module_debouncer debouncer(
-        .btn(|fila)
+        .btn(|fila),
         .clk(slow_clk),
         .rst(rst),
         .tecla(tecla),
@@ -106,10 +106,9 @@ module module_top(input logic clk,
     end
 
     // Instancia de la suma 
-    module_suma suma(
+    module_suma sumador(
         .a(a),
         .b(b),
-        .s(s)
+        .s(suma)
     );
-    assign suma = s;
 endmodule 

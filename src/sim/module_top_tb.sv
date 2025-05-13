@@ -2,17 +2,17 @@
 
 module module_top_tb;
 
-    logic clk, rst;
-    logic [3:0] fila;
-    logic [3:0] columnas;
-    logic [15:0] suma;
+    reg clk, rst;
+    reg [3:0] fila;
+    reg [3:0] columna;
+    wire [15:0] suma;
 
     // Instancia del DUT
     module_top dut (
         .clk(clk),
         .rst(rst),
         .fila(fila),
-        .columnas(columnas),
+        .columna(columna),
         .suma(suma)
     );
 
@@ -34,13 +34,13 @@ module module_top_tb;
     // Simula una tecla (columna activa + fila activa)
     task press_key(input [3:0] fila_val, input [1:0] col_sel_sim);
         begin
-            columnas = col_to_input(col_sel_sim);
+            columna = col_to_input(col_sel_sim);
             fila     = fila_val;
             $display("[%0t ns] Simulando tecla (fila = %b, columna = %b)", 
-                     $time, fila_val, columnas);
+                     $time, fila_val, columna);
             repeat(3) @(posedge clk);
             fila     = 4'b0000;
-            columnas = 4'b0000;
+            columna = 4'b0000;
             repeat(4) @(posedge clk); // debounce
         end
     endtask
@@ -48,7 +48,7 @@ module module_top_tb;
     initial begin
         rst = 1;
         fila = 4'd0;
-        columnas = 4'd0;
+        columna = 4'd0;
         @(posedge clk);
         rst = 0;
 
@@ -64,7 +64,7 @@ module module_top_tb;
 
         // Esperar resultado
         repeat(20) @(posedge clk);
-        $display("Suma esperada: 579 (BCD) → Salida: %h", suma);
+        $display("Suma esperada: 795 (BCD) → Salida: %h", suma);
         $stop;
     end
     initial begin

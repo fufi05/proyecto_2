@@ -3,7 +3,7 @@
                      input logic rdy,
                      output logic load_a,
                      output logic loab_b);
-        typedefenum logic [1:0] {S0,S1,S2,S3} statetype;
+        typedef enum logic [1:0] {S0,S1,S2,S3} statetype;
         statetype state, nextstate;
 
  //state register

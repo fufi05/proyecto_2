@@ -7,13 +7,12 @@ module mux_4to1 (
     output reg [6:0] out
 );
     always_comb @(sel) begin
-        out = '0;
         case(sel)
-            2'b00 : out <= a;
-            2'b01 : out <= b;
-            2'b10 : out <= c;
-            2'b11 : out <= d;
-        endcase
+            2'b00 : out = unidades;
+            2'b01 : out = decenas;
+            2'b10 : out = centenas;
+            2'b11 : out = millares;
         default: out = '0;
+        endcase
     end
 endmodule

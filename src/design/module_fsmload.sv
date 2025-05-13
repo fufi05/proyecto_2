@@ -5,7 +5,7 @@
                      output logic load_d,
                      output logic load_c,
                      output logic load_out);
-        typedefenum logic [2:0] {S0,S1,S2,S3,S4} statetype;
+        typedef enum logic [2:0] {S0,S1,S2,S3,S4} statetype;
         statetype state, nextstate;
 
  //state register

@@ -9,7 +9,7 @@ module module_deco_tecladohex (
     input  logic [3:0] fila,      // one-hot, activo en alto
     input  logic [3:0] col,      // one-hot, activo en alto
     input  logic        tecla, // tecla presionada
-    output logic [3:0] num, // número en binario natural
+    output logic [3:0] num // número en binario natural
 );
     always_comb begin
         if (tecla == 0) begin
