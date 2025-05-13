@@ -110,7 +110,7 @@ module module_top(input logic clk,
         .b(b),
         .s(s)
     );
-    assig suma = s;
+    assign suma = s;
     
     
 endmodule 
