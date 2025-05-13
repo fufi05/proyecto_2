@@ -1,0 +1,74 @@
+`timescale 1ns/1ps
+
+module module_top_tb;
+
+    logic clk, rst;
+    logic [3:0] fila;
+    logic [3:0] columnas;
+    logic [15:0] suma;
+
+    // Instancia del DUT
+    module_top dut (
+        .clk(clk),
+        .rst(rst),
+        .fila(fila),
+        .columnas(columnas),
+        .suma(suma)
+    );
+
+    // Clock lento para depuración
+    initial clk = 0;
+    always #500 clk = ~clk;
+
+    // Simular "columna activa" basada en barrido del contador interno
+    function [3:0] col_to_input(input [1:0] col_sel);
+        case (col_sel)
+            2'd0: col_to_input = 4'b0001;
+            2'd1: col_to_input = 4'b0010;
+            2'd2: col_to_input = 4'b0100;
+            2'd3: col_to_input = 4'b1000;
+            default: col_to_input = 4'b0000;
+        endcase
+    endfunction
+
+    // Simula una tecla (columna activa + fila activa)
+    task press_key(input [3:0] fila_val, input [1:0] col_sel_sim);
+        begin
+            columnas = col_to_input(col_sel_sim);
+            fila     = fila_val;
+            $display("[%0t ns] Simulando tecla (fila = %b, columna = %b)", 
+                     $time, fila_val, columnas);
+            repeat(3) @(posedge clk);
+            fila     = 4'b0000;
+            columnas = 4'b0000;
+            repeat(4) @(posedge clk); // debounce
+        end
+    endtask
+
+    initial begin
+        rst = 1;
+        fila = 4'd0;
+        columnas = 4'd0;
+        @(posedge clk);
+        rst = 0;
+
+        // Cargar A = 141 (U = 1, D = 4, C = 1)
+        press_key(4'b0001, 2'd0); // '1'
+        press_key(4'b0010, 2'd0); // '4'
+        press_key(4'b0001, 2'd0); // '1'
+
+        // Cargar B = 456 (U = 6, D = 5, C = 4)
+        press_key(4'b0010, 2'd3); // '6'
+        press_key(4'b0010, 2'd2); // '5'
+        press_key(4'b0010, 2'd0); // '4'
+
+        // Esperar resultado
+        repeat(20) @(posedge clk);
+        $display("Suma esperada: 579 (BCD) → Salida: %h", suma);
+        $stop;
+    end
+    initial begin
+        $dumpfile("module_top_tb.vcd");
+        $dumpvars(0, module_top_tb);
+    end
+endmodule

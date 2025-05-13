@@ -9,8 +9,8 @@
         statetype state, nextstate;
 
  //state register
- always_ff @(posedge clk,posedge rst) begin
-            if(rst) begin 
+ always_ff @(posedge clk) begin
+            if(!rst) begin 
                 state <= S0;
             end
             else begin

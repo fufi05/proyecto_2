@@ -20,8 +20,8 @@ module contador(input logic clk,
                 input logic  in,
                 output logic flg );
     logic [8:0] count;
-    always_ff @ (posedge clk, posedge rst) begin
-        if (rst) begin
+    always_ff @ (posedge clk) begin
+        if (!rst) begin
             count <= 0; flg <= 0;
         end
         else if (in == 1'b1) begin
