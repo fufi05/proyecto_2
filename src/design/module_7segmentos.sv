@@ -1,4 +1,4 @@
- module module_7segmentos(input logic[3:0] data,
+  module module_7segmentos(input logic[3:0] data,
                     output logic[6:0] segmentos);
  always_comb
  case(data)

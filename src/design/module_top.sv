@@ -112,4 +112,17 @@ module module_top(input logic clk,
         .s(suma)
     );
 
+    module_contador module_count (
+        .clk(clk),
+        .rst(rst),
+    );
+    module_7segmentos module_7segmentos(
+        .bcd_u()
+    );
+    module_mux_onehot mux_onehot(
+        .count_out(sel)
+    );
+    module_mux_4to1 mux_4to1(
+        .count_out(sel)
+    );
 endmodule 
