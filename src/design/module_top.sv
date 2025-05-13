@@ -117,12 +117,26 @@ module module_top(input logic clk,
         .rst(rst),
     );
     module_7segmentos module_7segmentos(
-        .bcd_u()
+        .data(bcd_u)
+        .segmentos(segmentos)
+    );
+    module_7segmentos module_7segmentos(
+        .data(bcd_d)
+        .segmentos(segmentos)
+    );
+    module_7segmentos module_7segmentos(
+        .data(bcd_c)
+        .segmentos(segmentos)
     );
     module_mux_onehot mux_onehot(
-        .count_out(sel)
+        .sel(count_out)
+        .out2(out2)
     );
     module_mux_4to1 mux_4to1(
-        .count_out(sel)
+        .sel(count_out)
+        //aqui van las unidades
+        //aqui van las decenas
+        //aqui van las centenas
+        //aqui van los millares
     );
 endmodule 
