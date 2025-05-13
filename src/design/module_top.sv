@@ -1,17 +1,18 @@
 module module_top(input logic clk,
                   input logic rst,
                   input logic [3:0] fila,
+                  input logic [3:0] columna,
                   output logic [15:0] suma);
-    logic slow_clk, stop, tecla, load_u, load_d, load_c, rdy, load_a, load_b, done;
+    logic slow_clk, stop, tecla, load_u, load_d, load_c, rdy, load_a, load_b;
     logic [1:0] col;
     logic [11:0] a, b, bcd_out;
     logic [3:0] col_o, tecla_d, bcd_u, bcd_d, bcd_c;
 
     // Instancia del divisor de frecuencia 
-    module_divisor_frecuencia clk_div(
+    module_count clk_div(
         .clk(clk),
         .rst(rst),
-        .clkOut(slow_clk)
+        .count_out(slow_clk)
     );
 
     // Instancia del contador de 2 bits
@@ -40,7 +41,7 @@ module module_top(input logic clk,
     // Decodificador teclado 4x4 -> hexadecimal
     module_deco_tecladohex deco_teclado(
         .fila(fila),
-        .col(col_o),
+        .col(columna),
         .tecla(tecla),
         .num(tecla_d)
     );
@@ -110,7 +111,6 @@ module module_top(input logic clk,
         .b(b),
         .s(s)
     );
-    assig suma = s;
-    
-    
+    assign suma = s;
+
 endmodule 
