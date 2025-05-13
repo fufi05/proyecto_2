@@ -35,6 +35,6 @@
     assign load_u = (state == S1);   // Señal activa durante S1
     assign load_d = (state == S2);   // Señal activa durante S2
     assign load_c = (state == S3);   // Señal activa durante S3
-    assign load_out   = (state == S4);   // Procesamiento completo
+    assign load_out = (state == S4);   // Procesamiento completo
  endmodule
  
