@@ -3,11 +3,11 @@ module module_count #(
 )(
     input logic clk,
     input logic rst,
-    output logic [1:0] count_out
+    output logic count_out
 );
     localparam width_count = $clog2(count);
     logic [width_count-1:0] counter = '0;
-    logic [1:0] count_o;
+    logic count_o;
 
     always_ff @( posedge clk ) begin
         if (!rst)begin

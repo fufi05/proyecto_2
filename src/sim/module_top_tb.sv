@@ -53,18 +53,18 @@ module module_top_tb;
         rst = 0;
 
         // Cargar A = 141 (U = 1, D = 4, C = 1)
-        press_key(4'b0001, 2'd0); // '1'
-        press_key(4'b0010, 2'd0); // '4'
-        press_key(4'b0001, 2'd0); // '1'
+        press_key(4'b0001, 2'd0); #10 // '1'
+        press_key(4'b0010, 2'd0); #10 // '4'
+        press_key(4'b0001, 2'd0); #10 // '1'
 
         // Cargar B = 456 (U = 6, D = 5, C = 4)
-        press_key(4'b0010, 2'd3); // '6'
-        press_key(4'b0010, 2'd2); // '5'
-        press_key(4'b0010, 2'd0); // '4'
+        press_key(4'b0010, 2'd3); #10 // '6'
+        press_key(4'b0010, 2'd2); #10 // '5'
+        press_key(4'b0010, 2'd0); #10// '4'
 
         // Esperar resultado
         repeat(20) @(posedge clk);
-        $display("Suma esperada: 795 (BCD) → Salida: %h", suma);
+        $display("Suma esperada: 579 (BCD) | Salida: %h", suma);
         $stop;
     end
     initial begin

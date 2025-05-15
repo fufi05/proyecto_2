@@ -1,12 +1,12 @@
 module module_top(input logic clk,
                   input logic rst,
-                  input logic [3:0] fila,
-                  input logic [3:0] columna,
+                  input logic [3:0] fila,columna,
                   output logic [15:0] suma);
-    logic stop, tecla, load_u, load_d, load_c, rdy, load_a, load_b,load_s;
-    logic [1:0] col, slow_clk,out2;
+    // Señales internas
+    logic stop, tecla, load_u, load_d, load_c, rdy, load_a, load_b,load_s,slow_clk;
+    logic [1:0] count; 
     logic [11:0] a, b, bcd_out;
-    logic [3:0] col_o, tecla_d, bcd_u, bcd_d, bcd_c,tecla_val;
+    logic [3:0] col_o, tecla_d, bcd_u, bcd_d, bcd_c;
 
     // Instancia del divisor de frecuencia 
     module_count clk_div(
@@ -16,16 +16,16 @@ module module_top(input logic clk,
     );
 
     // Instancia del contador de 2 bits
-    module_2bitcounter counter(
+    module_2bitcounter twobitcounter(
         .clk(slow_clk),
         .stop(stop),
         .rst(rst),
-        .count(col)
+        .count(count)
     );
 
     // Instancia del decodificador 2:4
     module_deco2a4 deco(
-        .in(col),
+        .in(count),
         .out(col_o)
     );
 
@@ -41,7 +41,7 @@ module module_top(input logic clk,
     // Decodificador teclado 4x4 -> hexadecimal
     module_deco_tecladohex deco_teclado(
         .fila(fila),
-        .col(columna),
+        .col(col_o),
         .tecla(tecla),
         .num(tecla_d)
     );
@@ -63,19 +63,26 @@ module module_top(input logic clk,
             bcd_u <= 4'd0;
             bcd_d <= 4'd0;
             bcd_c <= 4'd0;
+            bcd_out <= 12'd0;
         end 
         else begin
             if (load_u) begin
-                 bcd_u <= tecla_val;
+                 bcd_u <= tecla_d;
             end
             if (load_d) begin
-                 bcd_d <= tecla_val;
+                 bcd_d <= tecla_d;
             end
             if (load_c) begin
-                 bcd_c <= tecla_val;
+                 bcd_c <= tecla_d;
             end
             if (rdy) begin
                 bcd_out <= {bcd_u, bcd_d, bcd_c};
+            end
+            else begin
+                bcd_u <= bcd_u;
+                bcd_d <= bcd_d;
+                bcd_c <= bcd_c;
+                bcd_out <= bcd_out;
             end
         end
     end
@@ -102,6 +109,10 @@ module module_top(input logic clk,
             end
             if (load_b) begin
                 b <= bcd_out;
+            end
+            else begin
+                a <= a;
+                b <= b; 
             end
         end
     end
@@ -131,6 +142,8 @@ module module_top(input logic clk,
             fuente_sel <= 2'b01; // Mostrando B
         else if (load_s)
             fuente_sel <= 2'b10; // Mostrando resultado
+        else
+            fuente_sel <= 2'b00; // Default case when no condition is true
         end
     end 
 
@@ -144,6 +157,7 @@ module module_top(input logic clk,
     assign s_d = suma[7:4];
     assign s_c = suma[11:8];
     assign s_um = suma[15:12]; 
+
     // Instancia de que valores se van a mostrar
     always_comb begin
     // Default = A
@@ -193,5 +207,4 @@ module module_top(input logic clk,
         .segmentos(segmentos)
         //de aqui salen las unidades en forma para el siete segmentos y ser mandadas al mux
     );
-
 endmodule 
