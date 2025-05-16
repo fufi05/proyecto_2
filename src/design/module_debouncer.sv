@@ -44,14 +44,18 @@ module endff ( input  logic    clk,
   // enable and asynchronous rst
  logic q_reg, q_reg_d;
 
-    always_ff @(posedge clk, posedge rst) begin
-        if (rst) begin
+    always_ff @(posedge clk) begin
+        if (!rst) begin
             q_reg   <= 1'b0;
             q_reg_d <= 1'b0;
         end
         else if (en) begin
             q_reg   <= d;
             q_reg_d <= q_reg; // para detección de flanco
+        end
+        else begin
+            q_reg   <= q_reg;
+            q_reg_d <= q_reg_d; // mantiene el valor anterior
         end
     end
 
@@ -66,8 +70,8 @@ module dff(input logic  d,
            input logic rst, 
            output logic q);
 
-    always_ff @ (posedge clk, posedge rst) begin
-        q <= rst ? 1'b0 : d;
+    always_ff @ (posedge clk) begin
+        q <= !rst ? 1'b0 : d;
     end
 endmodule
 

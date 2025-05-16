@@ -1,9 +1,10 @@
 module module_top(input logic clk,
                   input logic rst,
-                  input logic [3:0] fila,columna,
+                  input logic tecla,stop, // solo para este tb. Para el de verdad deben de ser señales internas
+                  input logic [3:0] fila,
                   output logic [15:0] suma);
     // Señales internas
-    logic stop, tecla, load_u, load_d, load_c, rdy, load_a, load_b,load_s,slow_clk;
+    logic  load_u, load_d, load_c, rdy, load_a, load_b,load_s,slow_clk;
     logic [1:0] count; 
     logic [11:0] a, b, bcd_out;
     logic [3:0] col_o, tecla_d, bcd_u, bcd_d, bcd_c;
@@ -17,10 +18,10 @@ module module_top(input logic clk,
 
     // Instancia del contador de 2 bits
     module_2bitcounter twobitcounter(
-        .clk(slow_clk),
+        .clk(clk),
         .stop(stop),
         .rst(rst),
-        .count(count)
+        .count_o(count)
     );
 
     // Instancia del decodificador 2:4
@@ -28,7 +29,7 @@ module module_top(input logic clk,
         .in(count),
         .out(col_o)
     );
-
+/*
     //instancia del debouncer
     module_debouncer debouncer(
         .btn(|fila),
@@ -37,12 +38,11 @@ module module_top(input logic clk,
         .tecla(tecla),
         .stop(stop)
     );
-
+*/
     // Decodificador teclado 4x4 -> hexadecimal
     module_deco_tecladohex deco_teclado(
         .fila(fila),
         .col(col_o),
-        .tecla(tecla),
         .num(tecla_d)
     );
 
@@ -60,30 +60,28 @@ module module_top(input logic clk,
     //Instancia de registros de desplazamiento
     always_ff @(posedge clk) begin
         if (!rst) begin
-            bcd_u <= 4'd0;
-            bcd_d <= 4'd0;
-            bcd_c <= 4'd0;
-            bcd_out <= 12'd0;
+            bcd_u <= '0;
+            bcd_d <= '0;
+            bcd_c <= '0;
+            bcd_out <= '0;
         end 
-        else begin
-            if (load_u) begin
+        else if (load_u) begin
                  bcd_u <= tecla_d;
             end
-            if (load_d) begin
+        else if (load_d) begin
                  bcd_d <= tecla_d;
             end
-            if (load_c) begin
+        else if (load_c) begin
                  bcd_c <= tecla_d;
             end
-            if (rdy) begin
+        else if (rdy) begin
                 bcd_out <= {bcd_u, bcd_d, bcd_c};
             end
-            else begin
-                bcd_u <= bcd_u;
-                bcd_d <= bcd_d;
-                bcd_c <= bcd_c;
-                bcd_out <= bcd_out;
-            end
+        else begin
+            bcd_u <= bcd_u;
+            bcd_d <= bcd_d;
+            bcd_c <= bcd_c;
+            bcd_out <= bcd_out;
         end
     end
 
@@ -94,8 +92,7 @@ module module_top(input logic clk,
         .rdy(rdy),
         .load_a(load_a),
         .load_b(load_b),
-        .load_s(load_s)
-    );
+        .load_s(load_s));
 
     // Registro de desplazamiento para la FSM de operandos
     always_ff @(posedge clk)begin
@@ -103,19 +100,17 @@ module module_top(input logic clk,
             a <= '0;
             b <= '0;
         end
-        else begin
-            if (load_a) begin
+        else if (load_a) begin
                 a <= bcd_out;
             end
-            if (load_b) begin
+        else if (load_b) begin
                 b <= bcd_out;
             end
-            else begin
+        else begin
                 a <= a;
                 b <= b; 
-            end
         end
-    end
+        end
 
     // Instancia de la suma 
     module_suma sumador(

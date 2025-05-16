@@ -8,38 +8,33 @@
 module module_deco_tecladohex (
     input  logic [3:0] fila,      // one-hot, activo en alto
     input  logic [3:0] col,      // one-hot, activo en alto
-    input  logic        tecla, // tecla presionada
     output logic [3:0] num // número en binario natural
 );
+logic [7:0] d;
+assign d = {fila, col}; // concatenación de fila y columna
     always_comb begin
-        if (tecla == 0) begin
-            num = 4'bxxxx;
-        end
-        else if (tecla == 1) begin
-        case ({fila, col})
+        num = 4'b0000; // valor por defecto
+        case (d)
             8'b0001_0001: num = 4'b0001;     // 1-fila[0], col[0]
             8'b0001_0010: num = 4'b0010;    // 2
             8'b0001_0100: num = 4'b0011;   // 3
-            8'b0001_1000: num = 4'bxxxx;  // A
+            8'b0001_1000: num = 4'b0000;  // A
 
             8'b0010_0001: num = 4'b0100;     // 4-fila[1], col[0]
             8'b0010_0010: num = 4'b0101;    // 5
             8'b0010_0100: num = 4'b0110;   // 6
-            8'b0010_1000: num = 4'bxxxx;  // B
+            8'b0010_1000: num = 4'b0000;  // B
 
             8'b0100_0001: num = 4'b0111;     // 7-fila[2], col[0]
             8'b0100_0010: num = 4'b1000;    // 8
             8'b0100_0100: num = 4'b1001;   // 9
-            8'b0100_1000: num = 4'bxxxx;  // C
+            8'b0100_1000: num = 4'b0000;  // C
 
             8'b1000_0001: num = 4'b1110;     // * - fila[3], col[0]
             8'b1000_0010: num = 4'b0000;    // 0
             8'b1000_0100: num = 4'b1111;   // # - fila[3], col[2]
             8'b1000_1000: num = 4'b1101;  // D
-            default: begin
-                num = 4'b0000;
-            end
+            default: num = 4'b0000;
         endcase
         end
-    end
 endmodule
