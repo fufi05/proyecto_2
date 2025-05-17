@@ -2,12 +2,12 @@
 // testbench verilog code for debouncing button without creating another clock
 module module_debouncer_tb;
  // Inputs
- reg btn;
- reg clk;
- reg rst;
+ logic btn;
+ logic clk;
+ logic rst;
  // Outputs
- wire stop;
- wire tecla;
+ logic stop;
+ logic tecla;
  // Instantiate the debouncing Verilog code
  module_debouncer dut (
   .btn(btn), 
@@ -21,9 +21,9 @@ module module_debouncer_tb;
  forever #10 clk = ~clk; // Clock generation with a period of 100 time units
  end
  initial begin
-    rst = 1; // Reset the system
-  #1;
-  rst = 0;
+    rst = 1'b0; // Reset the system
+  #10;
+  rst = 1'b1;
   btn = 0;
   #10;
   btn=1;
@@ -57,6 +57,7 @@ module module_debouncer_tb;
   btn=1;
   #40;
   btn = 0; 
+  #100;
   $finish; // End the simulation
  end 
  initial begin

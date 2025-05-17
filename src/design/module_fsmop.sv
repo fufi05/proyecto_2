@@ -4,8 +4,13 @@
                      output logic load_a,
                      output logic load_b,
                      output logic load_s);
-        typedef enum logic [1:0] {S0,S1,S2,S3} statetype;
-        statetype state, nextstate;
+    parameter S0 = 4'b0001;
+    parameter S1 = 4'b0010;
+    parameter S2 = 4'b0100;
+    parameter S3 = 4'b1000;
+    logic [3:0] state, nextstate;
+       // typedef enum logic [3:0] {S0,S1,S2,S3} statetype; 
+       // statetype state, nextstate;
 
  //state register
  always_ff @(posedge clk) begin

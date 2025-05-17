@@ -19,49 +19,35 @@ module contador(input logic clk,
                 input logic rst,
                 input logic  in,
                 output logic flg );
-    logic [8:0] count;
+    logic [3:0] count;
     always_ff @ (posedge clk) begin
         if (!rst) begin
-            count <= 0; flg <= 0;
+            count <= 4'b0000; flg <= 1'b0;
         end
         else if (in == 1'b1) begin
-            count <= (count == 4) ? 0 : count + 1; 
-            flg <= (count != 4 ) ? 0 : 1; // Flag = 1 cuando count llega a 5
+            count <= (count == 4'b1111) ? 4'b0000 : count + 4'b1; 
+            flg <= (count != 4'b1111 ) ? 1'b0 : 1'b1; // Flag = 1 cuando count llega a 5
         end
-        else if (in == 1'b0) begin
-            count <= 0; flg <= 0; // Resetea count y flag si in no es 1
+        else begin
+            count <= 4'b0000; flg <= 1'b0; // Resetea count y flag si in no es 1
         end
     end
 endmodule
 
 // Enable flip-flop
-module endff ( input  logic    clk,
-               input  logic  rst, 
-               input  logic     en, 
-               input  logic      d, 
-               output logic      q);
-
-  // enable and asynchronous rst
- logic q_reg, q_reg_d;
-
-    always_ff @(posedge clk) begin
-        if (!rst) begin
-            q_reg   <= 1'b0;
-            q_reg_d <= 1'b0;
-        end
-        else if (en) begin
-            q_reg   <= d;
-            q_reg_d <= q_reg; // para detección de flanco
-        end
-        else begin
-            q_reg   <= q_reg;
-            q_reg_d <= q_reg_d; // mantiene el valor anterior
-        end
-    end
-
-    assign q = en && (q_reg && ~q_reg_d); // flanco de subida en 'd' cuando 'en' está activo
-
-endmodule 
+ module endff(input logic clk,
+              input logic rst,
+              input logic en,
+              input logic d,
+              output logic q);
+ //asynchronous reset
+ always_ff@(posedge clk) begin
+        if (!rst) begin q<=1'b0;
+         end
+        else if(en) begin q<=d;
+         end
+ end
+ endmodule
 
 
 // D flip-flop
@@ -74,4 +60,3 @@ module dff(input logic  d,
         q <= !rst ? 1'b0 : d;
     end
 endmodule
-
