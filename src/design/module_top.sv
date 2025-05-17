@@ -1,10 +1,10 @@
 module module_top(input logic clk,
                   input logic rst,
-                  input logic tecla,stop, // solo para este tb. Para el de verdad deben de ser señales internas
+                  // input logic tecla,stop, // solo para este tb. Para el de verdad deben de ser señales internas
                   input logic [3:0] fila,
                   output logic [15:0] suma);
     // Señales internas
-    logic  load_u, load_d, load_c, rdy, load_a, load_b,load_s,slow_clk;
+    logic tecla,stop,load_u, load_d, load_c, rdy, load_a, load_b,load_s,slow_clk;
     logic [1:0] count; 
     logic [11:0] a, b, bcd_out;
     logic [3:0] col_o, tecla_d, bcd_u, bcd_d, bcd_c;
@@ -29,16 +29,16 @@ module module_top(input logic clk,
         .in(count),
         .out(col_o)
     );
-/*
+
     //instancia del debouncer
     module_debouncer debouncer(
         .btn(|fila),
-        .clk(slow_clk),
+        .clk(clk),
         .rst(rst),
         .tecla(tecla),
         .stop(stop)
     );
-*/
+
     // Decodificador teclado 4x4 -> hexadecimal
     module_deco_tecladohex deco_teclado(
         .fila(fila),
@@ -174,6 +174,12 @@ module module_top(input logic clk,
             mux_val_1 = s_d;
             mux_val_2 = s_c;
             mux_val_3 = s_um;
+        end
+        default: begin
+            mux_val_0 = 4'd0;
+            mux_val_1 = 4'd0;
+            mux_val_2 = 4'd0;
+            mux_val_3 = 4'd0;
         end
         default: begin
             mux_val_0 = 4'd0;

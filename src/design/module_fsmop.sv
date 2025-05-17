@@ -24,12 +24,18 @@
  //next state logic
  always_comb begin
     case(state)
-        S0: if(rdy) nextstate = S1;
-        else nextstate = S0;
-        S1: if(rdy) nextstate = S2;
-        else nextstate = S1;
+        S0: if(rdy) begin nextstate = S1;
+        end
+        else begin nextstate = S0;
+        end
+        S1: if(rdy)  begin 
+            nextstate = S2;
+        end
+        else begin nextstate = S1;
+        end
         S2: nextstate = S3;
         S3: nextstate = S0;
+        default: nextstate = S0;
     endcase
  end
   // Output logic
