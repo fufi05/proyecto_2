@@ -40,7 +40,7 @@ module module_top_tb;
 
         // Esperar resultado
         #550;
-        $display("Suma esperada: 579 (BCD) | Salida: %h", suma);
+        $display("filas presionadas: %b, | Salida: %h", fila,suma);
         $finish;
     end
     initial begin
