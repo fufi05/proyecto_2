@@ -32,34 +32,41 @@ El sistema se divide en **tres subsistemas** principales, interconectados y sinc
 #### 3.1. Diagrama general del sistema
 En el presente diagrama se muestra un esquema general de las conexiones del sistema. Se tiene como entrada las filas, el reloj y un botón de reset que reinicia el sistema. Como salida se tiene la suma de los operandos y los operandos en el sistema de despliegue de siete segmentos.
 
-![[Pasted image 20250517190836.png]]
+![general](https://github.com/user-attachments/assets/99685757-58ac-471e-8477-881628774878)
+
 #### 3.2. FSM carga de dígitos
 Esta máquina de estados es la encargada de cargar los dígitos de unidades, decenas y centenas en función de una señal de control llamada `tecla`. Este pulso proviene del sistema de lectura y es el encargado de señalar si se ha presionado una tecla o no. Cuando ya se han cargado todos los dígitos, esta máquina da como salida una señal `load_out`, la cual será una señal de control en la siguiente máquina de estados.
 
-![[Pasted image 20250517185644.png]]
+![fsm_digitos](https://github.com/user-attachments/assets/2ec186ff-6dc1-4a6f-8c7b-db221712ca19)
+
 #### 3.3. FSM carga de operandos
 Esta máquina de estados es la encargada de cargar los dos operandos a ser sumados. En la FSM anterior `load_out` pasa a ser `RDY` y será la señal de control de esta máquina. Si se cargan los primeros 3 dígitos, este se guarda en un registro y espera la siguiente señal. Las salidas de esta máquina de estados funcionan también como señales de control para el sistema de despliegue.
 
-![[Pasted image 20250517191102.png]]
+![fsm_carga](https://github.com/user-attachments/assets/b8dad678-9dbc-44bd-bd85-38d2e9eecbf0)
+
 
 ### 3.4. Sistema de lectura de teclado
 Este subsistema permite capturar los dígitos ingresados desde un teclado hexadecimal matricial. Utiliza un contador de 2 bits para generar el barrido lógico de columnas, mientras se monitorean las filas para detectar pulsaciones. Las señales pasan por un debouncer que elimina rebotes mecánicos y generan un pulso limpio (`tecla`). Luego, un decodificador identifica la tecla presionada a partir de la combinación fila-columna. La FSM de carga controla la secuencia de registro de las unidades, decenas y centenas en formato BCD.
 
-![[Imagen de WhatsApp 2025-05-17 a las 19.38.07_058068f8.jpg]]
+![lectura](https://github.com/user-attachments/assets/bdda6799-824a-4770-8cb6-62beba2346c8)
+
 
 #### 3.5. Sistema de suma 
 Este bloque almacena los dos operandos en registros independientes controlados por las señales `LD_A` y `LD_B`. Una vez ambos operandos están cargados, el módulo de suma realiza la operación aritmética en formato BCD. El resultado se entrega también en BCD y es utilizado por el subsistema de despliegue.
-![[Imagen de WhatsApp 2025-05-17 a las 19.38.07_d9ce6b18.jpg]]
+![suma](https://github.com/user-attachments/assets/784f67eb-61b0-4650-b688-fe462cbb4d50)
+
 
 #### 3.6. Sistema de despliegue
 Este sistema muestra los operandos A, B y la suma mediante un selector y un controlador de siete segmentos. La señal `sel_out` viene codificada de la salida de la FSM de operandos.
 
-![[Imagen de WhatsApp 2025-05-17 a las 19.38.06_978a7d56.jpg]]
+![display](https://github.com/user-attachments/assets/bdd7bd71-792e-4f79-8d9b-c88fa8e1583d)
+
 
 # 4. Simulaciones y consumo de recursos
 En esta sección se muestra el tb ejecutado para comprobar el funcionamiento del sistema, así también como el consumo de recursos.
 ### 4.1. Testbench
-![[Pasted image 20250517195818.png]]
+![tb](https://github.com/user-attachments/assets/c57b065e-c0a8-418f-b206-bf014b10ad23)
+
 ### 4.2. Consumo de recursos
 ```
 === module_top ===
@@ -100,4 +107,5 @@ Durante el desarrollo del proyecto, se identificaron los siguientes desafíos:
     Al pasar de simulación a implementación en la FPGA, surgieron problemas relacionados con tiempos de respuesta, incompatibilidades de conexión y frecuencia de operación. Algunos módulos que funcionaban en simulación no reaccionaban correctamente en hardware real. Esto obligó a depurar señales internas, revisar restricciones de pines y ajustar los divisores de frecuencia para el teclado y los displays. A pesar de los esfuerzos, no se pudo realizar la implementación física del diseño en HDL.
 # 6. Referencias
 [1] David Harris y Sarah Harris. *Digital Design and Computer Architecture. RISC-V Edition.* Morgan Kaufmann, 2022. ISBN: 978-0-12-820064-3
+
 [2] Andrew House. Hex Keypad Explanation. Nov. de 2009. url: https://www-ug.eecg.toronto.edu/ msl/nios_devices/datasheets/hex_expl.pdf.
